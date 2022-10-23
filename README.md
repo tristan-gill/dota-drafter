@@ -16,3 +16,6 @@ Full disclosure, this project is not very polished.
 4. In a web page, navigate to `localhost:4000` where you should see a blank draft board (its not the most pretty)
 
 5. Start a draft in dota and the board should automatically track. The styling is not currently the most clean so you probably need to have the website in a 1920x1080 window. You can probably just source capture a small box.
+
+
+![image](https://user-images.githubusercontent.com/5561751/197368518-6b85baf2-dbe5-4e3e-a04b-f55f79af9707.png)

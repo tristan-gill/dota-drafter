@@ -136,11 +136,11 @@ const Board = ({ draft }) => {
   const renderHeroAnimation = (heroName, isNext) => {
     return (
       <div className={`hero-animation-container ${isNext && 'hero-animation-container-selected'}`}>
-        {false && (
+        {!!heroName && (
           <video class="hero-animation" autoPlay={true} loop={true} muted={true} playsInline={true} preload="auto">
             <source
               type="video/webm"
-              src={`videos/npc_dota_hero_${"zuus"}.webm`}
+              src={`videos/npc_dota_hero_${heroName}.webm`}
             />
             <img
               src={`https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/${heroName}.png`}
@@ -162,40 +162,6 @@ const Board = ({ draft }) => {
 
     return `${minutes}:${extraSeconds}`;
   };
-
-  const radiantHasAnyPick = (
-    draft?.team2?.pick0_class ||
-    draft?.team2?.pick1_class ||
-    draft?.team2?.pick2_class ||
-    draft?.team2?.pick3_class ||
-    draft?.team2?.pick4_class
-  );
-  const radiantHasAnyBan = (
-    draft?.team2?.ban0_class ||
-    draft?.team2?.ban1_class ||
-    draft?.team2?.ban2_class ||
-    draft?.team2?.ban3_class ||
-    draft?.team2?.ban4_class ||
-    draft?.team2?.ban5_class ||
-    draft?.team2?.ban6_class
-  );
-
-  const direHasAnyPick = (
-    draft?.team3?.pick0_class ||
-    draft?.team3?.pick1_class ||
-    draft?.team3?.pick2_class ||
-    draft?.team3?.pick3_class ||
-    draft?.team3?.pick4_class
-  );
-  const direHasAnyBan = (
-    draft?.team3?.ban0_class ||
-    draft?.team3?.ban1_class ||
-    draft?.team3?.ban2_class ||
-    draft?.team3?.ban3_class ||
-    draft?.team3?.ban4_class ||
-    draft?.team3?.ban5_class ||
-    draft?.team3?.ban6_class
-  );
 
   return (
     <>

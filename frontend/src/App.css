@@ -11,6 +11,14 @@
   margin-right: auto;
 }
 
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
 .my-1 {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -20,39 +28,4 @@
   height: 10px;
   width: 10px;
   flex-shrink: 0;
-}
-
-.pixel:hover {
-  height: 10px;
-  width: 10px;
-  flex-shrink: 0;
-}
-
-.board {
-  border: 1px solid black;
-}
-
-.palette {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-.palette-blob {
-  height: 50px;
-  width: 50px;
-  margin: 10px;
-  flex-shrink: 0;
-}
-
-.new-color {
-  height: 50px;
-  width: 50px;
-  margin: 10px;
-  flex-shrink: 0;
-}
-
-.color-input {
-  border: none;
-  padding: 0;
 }

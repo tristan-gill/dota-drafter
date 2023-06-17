@@ -33,8 +33,8 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(process.env.PORT || 3000, () => {
-  console.log(`Server listening on ${process.env.PORT || 3000}`);
+http.listen(3002, () => {
+  console.log(`Server listening on ${3002}`);
 });
 
 server.events.on('newclient', (client) => {

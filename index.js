@@ -5,7 +5,7 @@ var server = new d2gsi({
 
 const express = require("express");
 const app = express();
-const http = require("http").Server(app);
+const http = require("http").createServer(app);
 const cors = require("cors");
 const io = require('socket.io')(http, {
   cors: {

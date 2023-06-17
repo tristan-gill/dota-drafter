@@ -222,10 +222,9 @@ const Board = ({ draft }) => {
                 <div className='time-container'>
                   {draft?.activeteam === 3 && (
                     <>
-                      <div className='time'>
+                      <div className='time big-time'>
                         {prettyPrintTime(draft?.activeteam_time_remaining)}
                       </div>
-                      <div className='time-subheader'>ACTIVE</div>
                     </>
                   )}
                 </div>

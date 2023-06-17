@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.42f2fbb9.css",
-    "main.js": "/static/js/main.0323cf06.js",
+    "main.css": "/static/css/main.eca4dd8d.css",
+    "main.js": "/static/js/main.c27494d1.js",
     "static/js/787.cda612ba.chunk.js": "/static/js/787.cda612ba.chunk.js",
     "static/media/banner_no_text.png": "/static/media/banner_no_text.c760fd6cd33dbf6d2b13.png",
     "static/media/nadcl-logo-png_hq.png": "/static/media/nadcl-logo-png_hq.5eb9bffce688efa10fd0.png",
     "index.html": "/index.html",
-    "main.42f2fbb9.css.map": "/static/css/main.42f2fbb9.css.map",
-    "main.0323cf06.js.map": "/static/js/main.0323cf06.js.map",
+    "main.eca4dd8d.css.map": "/static/css/main.eca4dd8d.css.map",
+    "main.c27494d1.js.map": "/static/js/main.c27494d1.js.map",
     "787.cda612ba.chunk.js.map": "/static/js/787.cda612ba.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.42f2fbb9.css",
-    "static/js/main.0323cf06.js"
+    "static/css/main.eca4dd8d.css",
+    "static/js/main.c27494d1.js"
   ]
 }

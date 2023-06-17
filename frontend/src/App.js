@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 
 import Board from './components/Board';
 
-const socket = io.connect('http://localhost:3000');
+const socket = io.connect('https://dota-drafter-6a4237bd4184.herokuapp.com/');
 
 const App = () => {
   const [draft, setDraft] = useState(null);

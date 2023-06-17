@@ -1,6 +1,6 @@
 var d2gsi = require('dota2-gsi');
 var server = new d2gsi({
-  port: process.env.PORT
+  port: process.env.PORT || 3000
 });
 
 const express = require("express");
@@ -33,8 +33,8 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(process.env.PORT, () => {
-  console.log(`Server listening on ${process.env.PORT}`);
+http.listen(process.env.PORT || 3000, () => {
+  console.log(`Server listening on ${process.env.PORT || 3000}`);
 });
 
 server.events.on('newclient', (client) => {

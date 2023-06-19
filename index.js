@@ -1,14 +1,10 @@
-// var d2gsi = require('dota2-gsi');
-// var server = new d2gsi({
-//   port: port || 3000
-// });
-
+require('dotenv').config();
 var eventEmitter = require('events').EventEmitter;
 var events = new eventEmitter();
 
 var clients = [];
 var port = process.env.PORT || 3000;
-var tokens = process.env.TOKENS || null;
+var tokens = process.env.TOKENS ? process.env.TOKENS.split(',') : null;
 
 function gsi_client (ip, auth) {
   this.ip = ip;
@@ -82,6 +78,7 @@ function Process_changes(section) {
 
 function Update_gamestate(req, res, next) {
   req.client.gamestate = req.body;
+  // console.log(req.body?.player?.team2?.player0)
   next();
 }
 

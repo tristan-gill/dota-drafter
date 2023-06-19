@@ -9,6 +9,33 @@ const Board = ({ draft }) => {
   const [direScore, setDireScore] = useState("0");
   const [nextAction, setNextAction] = useState();
 
+  const [primaryColor, setPrimaryColor] = useState("#AC2A1C");
+  const [secondaryColor, setSecondaryColor] = useState("#C15F55");
+  const [accentColor, setAccentColor] = useState("#febe10");
+  const [textColor, setTextColor] = useState("#000000");
+  const [pickLogoUrl, setPickLogoUrl] = useState("https://i.imgur.com/PhWn6pO.png");
+  const [middleSectionBackgroundImage, setMiddleSectionBackgroundImage] = useState("");
+  const [middleSectionBackgroundColor, setMiddleSectionBackgroundColor] = useState("#AC2A1C");
+
+  const saveAppearanceSettings = () => {
+    localStorage.setItem('primaryColor', primaryColor);
+    localStorage.setItem('secondaryColor', secondaryColor);
+    localStorage.setItem('accentColor', accentColor);
+    localStorage.setItem('textColor', textColor);
+    localStorage.setItem('pickLogoUrl', pickLogoUrl);
+    localStorage.setItem('middleSectionBackgroundImage', middleSectionBackgroundImage);
+    localStorage.setItem('middleSectionBackgroundColor', middleSectionBackgroundColor);
+  };
+  const loadAppearanceSettings = () => {
+    setPrimaryColor(localStorage.getItem('primaryColor'));
+    setSecondaryColor(localStorage.getItem('secondaryColor'));
+    setAccentColor(localStorage.getItem('accentColor'));
+    setTextColor(localStorage.getItem('textColor'));
+    setPickLogoUrl(localStorage.getItem('pickLogoUrl'));
+    setMiddleSectionBackgroundImage(localStorage.getItem('middleSectionBackgroundImage'));
+    setMiddleSectionBackgroundColor(localStorage.getItem('middleSectionBackgroundColor'));
+  };
+
   // surely a better way than this, but im tired
   useEffect(() => {
     if (draft?.activeteam === 2) {
@@ -125,7 +152,10 @@ const Board = ({ draft }) => {
 
   const renderBanHero = (heroName, isNext) => {
     return (
-      <div className={`ban-image-container ${isNext && 'ban-image-container-selected'}`}>
+      <div
+        className="ban-image-container"
+        style={{ backgroundColor: primaryColor, ...(isNext && { boxShadow: `inset 0px 0px 20px 0px ${accentColor}` }) }}
+      >
         {heroName && (
           <img className='ban-image' src={`https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/${heroName}.png`} alt={heroName} />
         )}
@@ -135,7 +165,14 @@ const Board = ({ draft }) => {
 
   const renderHeroAnimation = (heroName, isNext) => {
     return (
-      <div className={`hero-animation-container ${isNext && 'hero-animation-container-selected'}`}>
+      <div
+        className="hero-animation-container"
+        style={{
+          backgroundColor: secondaryColor,
+          ...(isNext && { boxShadow: `inset 0px 0px 20px 0px ${accentColor}` }),
+          backgroundImage: `url(${pickLogoUrl})`
+        }}
+      >
         {!!heroName && (
           <video class="hero-animation" autoPlay={true} loop={true} muted={true} playsInline={true} preload="auto">
             <source
@@ -168,18 +205,21 @@ const Board = ({ draft }) => {
       <div className="page">
         <div className='container'>
           <div className='faction-section'>
-            <div className="team-info">
+            <div className="team-info" style={{ borderBottomColor: accentColor }}>
               <div className='d-flex ml-auto'>
-                <div className='team-name team-name-left'>
+                <div
+                  className='team-name team-name-left'
+                  style={{ backgroundColor: primaryColor, borderRightColor: accentColor, color: textColor }}
+                >
                   {radiantTeam}
                 </div>
-                <div className='team-score'>
+                <div className='team-score' style={{ backgroundColor: secondaryColor, color: textColor }}>
                   {radiantScore}
                 </div>
               </div>
             </div>
 
-            <div className='pick-bar'>
+            <div className='pick-bar' style={{ backgroundColor: primaryColor }}>
               {renderHeroAnimation(draft?.team2?.pick0_class, nextAction === 'team2.pick0_class')}
               {renderHeroAnimation(draft?.team2?.pick1_class, nextAction === 'team2.pick1_class')}
               {renderHeroAnimation(draft?.team2?.pick2_class, nextAction === 'team2.pick2_class')}
@@ -187,7 +227,7 @@ const Board = ({ draft }) => {
               {renderHeroAnimation(draft?.team2?.pick4_class, nextAction === 'team2.pick4_class')}
             </div>
             
-            <div className='ban-bar'>
+            <div className='ban-bar' style={{ backgroundColor: secondaryColor }}>
               {renderBanHero(draft?.team2?.ban0_class, nextAction === 'team2.ban0_class')}
               {renderBanHero(draft?.team2?.ban1_class, nextAction === 'team2.ban1_class')}
               {renderBanHero(draft?.team2?.ban2_class, nextAction === 'team2.ban2_class')}
@@ -198,7 +238,14 @@ const Board = ({ draft }) => {
             </div>
           </div>
 
-          <div className="middle-section">
+          <div
+            className="middle-section"
+            style={{
+              color: textColor,
+              ...(middleSectionBackgroundImage && { backgroundImage: `url(${middleSectionBackgroundImage})`}),
+              backgroundColor: middleSectionBackgroundColor
+            }}
+          >
             <div className='game-number'>
               {game}
             </div>
@@ -253,18 +300,21 @@ const Board = ({ draft }) => {
           </div>
 
           <div className='faction-section'>
-            <div className="team-info">
+            <div className="team-info" style={{ borderBottomColor: accentColor }}>
               <div className='d-flex'>
-                <div className='team-score'>
+                <div className='team-score' style={{ backgroundColor: secondaryColor, color: textColor }}>
                   {direScore}
                 </div>
-                <div className='team-name team-name-right'>
+                <div
+                  className='team-name team-name-right'
+                  style={{ backgroundColor: primaryColor, borderLeftColor: accentColor, color: textColor }}
+                >
                   {direTeam}
                 </div>
               </div>
             </div>
 
-            <div className='pick-bar'>
+            <div className='pick-bar' style={{ backgroundColor: primaryColor }}>
               {renderHeroAnimation(draft?.team3?.pick0_class, nextAction === 'team3.pick0_class')}
               {renderHeroAnimation(draft?.team3?.pick1_class, nextAction === 'team3.pick1_class')}
               {renderHeroAnimation(draft?.team3?.pick2_class, nextAction === 'team3.pick2_class')}
@@ -272,7 +322,7 @@ const Board = ({ draft }) => {
               {renderHeroAnimation(draft?.team3?.pick4_class, nextAction === 'team3.pick4_class')}
             </div>
             
-            <div className='ban-bar'>
+            <div className='ban-bar' style={{ backgroundColor: secondaryColor }}>
               {renderBanHero(draft?.team3?.ban0_class, nextAction === 'team3.ban0_class')}
               {renderBanHero(draft?.team3?.ban1_class, nextAction === 'team3.ban1_class')}
               {renderBanHero(draft?.team3?.ban2_class, nextAction === 'team3.ban2_class')}
@@ -295,6 +345,7 @@ const Board = ({ draft }) => {
         <input value={radiantScore} name="radiantScore" onChange={(e) => setRadiantScore(e.target.value)} />
       </div>
 
+      <br />
       <div>
         Dire team
       </div>
@@ -304,11 +355,55 @@ const Board = ({ draft }) => {
       <div>
         <input value={direScore} name="direScore" onChange={(e) => setDireScore(e.target.value)} />
       </div>
+      
+      <br />
       <div>
         Title
       </div>
       <div>
         <input value={game} name="game" onChange={(e) => setGame(e.target.value)} />
+      </div>
+      
+      <br />
+      <div>
+        Appearance
+      </div>
+      <div>
+        Primary color:&nbsp;
+        <input value={primaryColor} name="primaryColor" onChange={(e) => setPrimaryColor(e.target.value)} />
+      </div>
+      <div>
+        Secondary color:&nbsp;
+        <input value={secondaryColor} name="secondaryColor" onChange={(e) => setSecondaryColor(e.target.value)} />
+      </div>
+      <div>
+        Accent color:&nbsp;
+        <input value={accentColor} name="accentColor" onChange={(e) => setAccentColor(e.target.value)} />
+      </div>
+      <div>
+        Text color:&nbsp;
+        <input value={textColor} name="textColor" onChange={(e) => setTextColor(e.target.value)} />
+      </div>
+      <div>
+        Logo in the hero pick box: (logo white: https://i.imgur.com/mddUuW8.png, logo black: https://i.imgur.com/PhWn6pO.png):&nbsp;
+        <input value={pickLogoUrl} name="pickLogoUrl" onChange={(e) => setPickLogoUrl(e.target.value)} />
+      </div>
+      <div>
+        Middle section background image:&nbsp;
+        <input value={middleSectionBackgroundImage} name="middleSectionBackgroundImage" onChange={(e) => setMiddleSectionBackgroundImage(e.target.value)} />
+      </div>
+      <div>
+        Middle section background color:&nbsp;
+        <input value={middleSectionBackgroundColor} name="middleSectionBackgroundColor" onChange={(e) => setMiddleSectionBackgroundColor(e.target.value)} />
+      </div>
+
+      <div>
+        <button onClick={saveAppearanceSettings}>
+          Save appearance settings
+        </button>
+        <button onClick={loadAppearanceSettings}>
+          Load appearance settings
+        </button>
       </div>
     </>
   );

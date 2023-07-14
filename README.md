@@ -17,5 +17,4 @@ Full disclosure, this project is not very polished.
 
 5. Start a draft in dota and the board should automatically track. The styling is not currently the most clean so you probably need to have the website in a 1920x1080 window. You can probably just source capture a small box.
 
-
-![image](https://user-images.githubusercontent.com/5561751/197368518-6b85baf2-dbe5-4e3e-a04b-f55f79af9707.png)
+![image](https://github.com/tristan-gill/dota-drafter/assets/5561751/797c3b7e-d7cf-4226-afac-9a392fac6cb0)

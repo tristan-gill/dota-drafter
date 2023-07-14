@@ -147,9 +147,6 @@ const Board = ({ draft }) => {
     draft?.team3?.pick4_class
   ]);
 
-  // both reserves
-  // make it huge
-
   const renderBanHero = (heroName, isNext) => {
     return (
       <div
@@ -174,7 +171,7 @@ const Board = ({ draft }) => {
         }}
       >
         {!!heroName && (
-          <video class="hero-animation" autoPlay={true} loop={true} muted={true} playsInline={true} preload="auto">
+          <video className="hero-animation" autoPlay={true} loop={true} muted={true} playsInline={true} preload="auto">
             <source
               type="video/webm"
               src={`videos/npc_dota_hero_${heroName}.webm`}

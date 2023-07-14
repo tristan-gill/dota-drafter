@@ -1,28 +1,21 @@
-import './App.css';
-import React, { useState, useEffect } from 'react'
-import { io } from "socket.io-client";
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Board from './components/Board';
-
-const socket = io.connect('https://dota-drafter-6a4237bd4184.herokuapp.com/');
+import Home from './components/Home';
+import { socket, SocketContext } from './context/socket';
+import './App.css';
 
 const App = () => {
-  const [draft, setDraft] = useState(null);
-
-  useEffect(() => {
-    socket.on('draft', (d) => {
-      setDraft(d)
-    });
-
-    return () => {
-      socket.off('draft');
-    };
-  }, []);
-
   return (
-    <div>
-      <Board draft={draft} />
-    </div>
+    <SocketContext.Provider value={socket}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/:boardName" element={<Board />} />
+        </Routes>
+      </Router>
+    </SocketContext.Provider>
   );
 };
 

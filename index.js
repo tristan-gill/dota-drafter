@@ -111,6 +111,7 @@ function parseAuthToken(authToken) {
 }
 
 const express = require("express");
+const path = require('path');
 const app = express();
 const http = require("http").createServer(app);
 const cors = require("cors");
@@ -139,6 +140,10 @@ io.on('connection', (socket) => {
     socket.disconnect()
     console.log('A user disconnected');
   });
+});
+
+app.get('*', function(req, res) {
+  res.sendFile('index.html', {root: path.join(__dirname, '/public/')});
 });
 
 http.listen(port || 3000, () => {

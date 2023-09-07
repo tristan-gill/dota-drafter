@@ -1,7 +1,8 @@
 import './Board.css';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { getDefaultForBoardName } from './configs';
 
-const Board = ({ draft }) => {
+const Board = ({ draft, boardName }) => {
   const [radiantTeam, setRadiantTeam] = useState("Team 1");
   const [direTeam, setDireTeam] = useState("Team 2");
   const [game, setGame] = useState("Game 1");
@@ -9,32 +10,33 @@ const Board = ({ draft }) => {
   const [direScore, setDireScore] = useState("0");
   const [nextAction, setNextAction] = useState();
 
-  const [primaryColor, setPrimaryColor] = useState("#AC2A1C");
-  const [secondaryColor, setSecondaryColor] = useState("#C15F55");
-  const [accentColor, setAccentColor] = useState("#febe10");
-  const [textColor, setTextColor] = useState("#000000");
-  const [pickLogoUrl, setPickLogoUrl] = useState("https://i.imgur.com/PhWn6pO.png");
-  const [middleSectionBackgroundImage, setMiddleSectionBackgroundImage] = useState("");
-  const [middleSectionBackgroundColor, setMiddleSectionBackgroundColor] = useState("#AC2A1C");
+  const config = getDefaultForBoardName(boardName);
+  const [primaryColor, setPrimaryColor] = useState(config.primaryColor);
+  const [secondaryColor, setSecondaryColor] = useState(config.secondaryColor);
+  const [accentColor, setAccentColor] = useState(config.accentColor);
+  const [textColor, setTextColor] = useState(config.textColor);
+  const [pickLogoUrl, setPickLogoUrl] = useState(config.pickLogoUrl);
+  const [middleSectionBackgroundImage, setMiddleSectionBackgroundImage] = useState(config.middleSectionBackgroundImage);
+  const [middleSectionBackgroundColor, setMiddleSectionBackgroundColor] = useState(config.middleSectionBackgroundColor);
 
-  const saveAppearanceSettings = () => {
-    localStorage.setItem('primaryColor', primaryColor);
-    localStorage.setItem('secondaryColor', secondaryColor);
-    localStorage.setItem('accentColor', accentColor);
-    localStorage.setItem('textColor', textColor);
-    localStorage.setItem('pickLogoUrl', pickLogoUrl);
-    localStorage.setItem('middleSectionBackgroundImage', middleSectionBackgroundImage);
-    localStorage.setItem('middleSectionBackgroundColor', middleSectionBackgroundColor);
-  };
-  const loadAppearanceSettings = () => {
-    setPrimaryColor(localStorage.getItem('primaryColor'));
-    setSecondaryColor(localStorage.getItem('secondaryColor'));
-    setAccentColor(localStorage.getItem('accentColor'));
-    setTextColor(localStorage.getItem('textColor'));
-    setPickLogoUrl(localStorage.getItem('pickLogoUrl'));
-    setMiddleSectionBackgroundImage(localStorage.getItem('middleSectionBackgroundImage'));
-    setMiddleSectionBackgroundColor(localStorage.getItem('middleSectionBackgroundColor'));
-  };
+  // const saveAppearanceSettings = () => {
+  //   localStorage.setItem('primaryColor', primaryColor);
+  //   localStorage.setItem('secondaryColor', secondaryColor);
+  //   localStorage.setItem('accentColor', accentColor);
+  //   localStorage.setItem('textColor', textColor);
+  //   localStorage.setItem('pickLogoUrl', pickLogoUrl);
+  //   localStorage.setItem('middleSectionBackgroundImage', middleSectionBackgroundImage);
+  //   localStorage.setItem('middleSectionBackgroundColor', middleSectionBackgroundColor);
+  // };
+  // const loadAppearanceSettings = () => {
+  //   setPrimaryColor(localStorage.getItem('primaryColor'));
+  //   setSecondaryColor(localStorage.getItem('secondaryColor'));
+  //   setAccentColor(localStorage.getItem('accentColor'));
+  //   setTextColor(localStorage.getItem('textColor'));
+  //   setPickLogoUrl(localStorage.getItem('pickLogoUrl'));
+  //   setMiddleSectionBackgroundImage(localStorage.getItem('middleSectionBackgroundImage'));
+  //   setMiddleSectionBackgroundColor(localStorage.getItem('middleSectionBackgroundColor'));
+  // };
 
   // surely a better way than this, but im tired
   useEffect(() => {
@@ -332,36 +334,32 @@ const Board = ({ draft }) => {
         </div>
       </div>
 
-      <div>
+      <div className='editTitle'>
         Radiant team
       </div>
-      <div>
-        <input value={radiantTeam} name="radiantTeam" onChange={(e) => setRadiantTeam(e.target.value)} />
-      </div>
-      <div>
-        <input value={radiantScore} name="radiantScore" onChange={(e) => setRadiantScore(e.target.value)} />
+      <div className='flex'>
+          <input className='editInput' value={radiantTeam} name="radiantTeam" onChange={(e) => setRadiantTeam(e.target.value)} />
+          <input className='editInput' value={radiantScore} name="radiantScore" onChange={(e) => setRadiantScore(e.target.value)} />
       </div>
 
       <br />
-      <div>
+      <div className='editTitle'>
         Dire team
       </div>
-      <div>
-        <input value={direTeam} name="direTeam" onChange={(e) => setDireTeam(e.target.value)} />
-      </div>
-      <div>
-        <input value={direScore} name="direScore" onChange={(e) => setDireScore(e.target.value)} />
+      <div className='flex'>
+        <input className='editInput' value={direTeam} name="direTeam" onChange={(e) => setDireTeam(e.target.value)} />
+        <input className='editInput' value={direScore} name="direScore" onChange={(e) => setDireScore(e.target.value)} />
       </div>
       
       <br />
-      <div>
+      <div className='editTitle'>
         Title
       </div>
       <div>
-        <input value={game} name="game" onChange={(e) => setGame(e.target.value)} />
+        <input className='editInput' value={game} name="game" onChange={(e) => setGame(e.target.value)} />
       </div>
       
-      <br />
+      {/* <br />
       <div>
         Appearance
       </div>
@@ -392,16 +390,16 @@ const Board = ({ draft }) => {
       <div>
         Middle section background color:&nbsp;
         <input value={middleSectionBackgroundColor} name="middleSectionBackgroundColor" onChange={(e) => setMiddleSectionBackgroundColor(e.target.value)} />
-      </div>
+      </div> */}
 
-      <div>
+      {/* <div>
         <button onClick={saveAppearanceSettings}>
           Save appearance settings
         </button>
         <button onClick={loadAppearanceSettings}>
           Load appearance settings
         </button>
-      </div>
+      </div> */}
     </>
   );
 }

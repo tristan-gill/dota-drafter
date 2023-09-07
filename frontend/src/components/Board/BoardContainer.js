@@ -26,7 +26,7 @@ const BoardContainer = () => {
 
   return (
     <div>
-      <Board draft={draft} />
+      <Board draft={draft} boardName={boardName} />
     </div>
   );
 }

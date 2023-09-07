@@ -72,6 +72,7 @@
   gap: 4px;
   margin: 12px;
   background-color: #000000;
+  background-position: center;
 }
 
 .upper-middle-section {
@@ -175,4 +176,14 @@
 .hero-animation {
   width: 100%;
   object-fit: fill;
+}
+
+.editTitle {
+  font-size: 24px;
+}
+
+.editInput {
+  height: 50px;
+  font-size: 40px;
+  font-family: 'Paytone One';
 }

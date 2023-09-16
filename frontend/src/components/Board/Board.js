@@ -8,12 +8,15 @@ const Board = ({ draft, boardName }) => {
   const [game, setGame] = useState("Game 1");
   const [radiantScore, setRadiantScore] = useState("0");
   const [direScore, setDireScore] = useState("0");
+  const [radiantPlayers, setRadiantPlayers] = useState("player1, player2, player3, player4, player5");
+  const [direPlayers, setDirePlayers] = useState("player6, player6, player8, player9, player10");
   const [nextAction, setNextAction] = useState();
 
   const config = getDefaultForBoardName(boardName);
   const [primaryColor, setPrimaryColor] = useState(config.primaryColor);
   const [secondaryColor, setSecondaryColor] = useState(config.secondaryColor);
-  const [accentColor, setAccentColor] = useState(config.accentColor);
+  const [accentColorDire, setAccentColorDire] = useState(config.accentColorDire);
+  const [accentColorRadiant, setAccentColorRadiant] = useState(config.accentColorRadiant);
   const [textColor, setTextColor] = useState(config.textColor);
   const [pickLogoUrl, setPickLogoUrl] = useState(config.pickLogoUrl);
   const [middleSectionBackgroundImage, setMiddleSectionBackgroundImage] = useState(config.middleSectionBackgroundImage);
@@ -153,7 +156,7 @@ const Board = ({ draft, boardName }) => {
     return (
       <div
         className="ban-image-container"
-        style={{ backgroundColor: primaryColor, ...(isNext && { boxShadow: `inset 0px 0px 20px 0px ${accentColor}` }) }}
+        style={{ backgroundColor: primaryColor, ...(isNext && { boxShadow: `inset 0px 0px 20px 0px ${accentColorDire}` }) }}
       >
         {heroName && (
           <img className='ban-image' src={`https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/${heroName}.png`} alt={heroName} />
@@ -168,7 +171,7 @@ const Board = ({ draft, boardName }) => {
         className="hero-animation-container"
         style={{
           backgroundColor: secondaryColor,
-          ...(isNext && { boxShadow: `inset 0px 0px 20px 0px ${accentColor}` }),
+          ...(isNext && { boxShadow: `inset 0px 0px 20px 0px ${accentColorRadiant}` }),
           backgroundImage: `url(${pickLogoUrl})`
         }}
       >
@@ -204,13 +207,14 @@ const Board = ({ draft, boardName }) => {
       <div className="page">
         <div className='container'>
           <div className='faction-section'>
-            <div className="team-info" style={{ borderBottomColor: accentColor }}>
+            <div className="team-info" style={{ borderBottomColor: accentColorRadiant }}>
               <div className='d-flex ml-auto'>
                 <div
                   className='team-name team-name-left'
-                  style={{ backgroundColor: primaryColor, borderRightColor: accentColor, color: textColor }}
+                  style={{ backgroundColor: primaryColor, borderRightColor: accentColorRadiant, color: textColor }}
                 >
-                  {radiantTeam}
+                  <div className='team-name-text'>{radiantTeam}</div>
+                  <div className='team-players-text'>{radiantPlayers}</div>
                 </div>
                 <div className='team-score' style={{ backgroundColor: secondaryColor, color: textColor }}>
                   {radiantScore}
@@ -299,16 +303,17 @@ const Board = ({ draft, boardName }) => {
           </div>
 
           <div className='faction-section'>
-            <div className="team-info" style={{ borderBottomColor: accentColor }}>
+            <div className="team-info" style={{ borderBottomColor: accentColorDire }}>
               <div className='d-flex'>
                 <div className='team-score' style={{ backgroundColor: secondaryColor, color: textColor }}>
                   {direScore}
                 </div>
                 <div
                   className='team-name team-name-right'
-                  style={{ backgroundColor: primaryColor, borderLeftColor: accentColor, color: textColor }}
+                  style={{ backgroundColor: primaryColor, borderLeftColor: accentColorDire, color: textColor }}
                 >
-                  {direTeam}
+                  <div className='team-name-text'>{direTeam}</div>
+                  <div className='team-players-text'>{direPlayers}</div>
                 </div>
               </div>
             </div>
@@ -341,7 +346,9 @@ const Board = ({ draft, boardName }) => {
           <input className='editInput' value={radiantTeam} name="radiantTeam" onChange={(e) => setRadiantTeam(e.target.value)} />
           <input className='editInput' value={radiantScore} name="radiantScore" onChange={(e) => setRadiantScore(e.target.value)} />
       </div>
+      <input className='editInput' style={{ width: '960px', fontSize: '20px' }} value={radiantPlayers} name="radiantPlayers" onChange={(e) => setRadiantPlayers(e.target.value)} />
 
+      <br />
       <br />
       <div className='editTitle'>
         Dire team
@@ -350,7 +357,9 @@ const Board = ({ draft, boardName }) => {
         <input className='editInput' value={direTeam} name="direTeam" onChange={(e) => setDireTeam(e.target.value)} />
         <input className='editInput' value={direScore} name="direScore" onChange={(e) => setDireScore(e.target.value)} />
       </div>
+      <input className='editInput' style={{ width: '960px', fontSize: '20px' }} value={direPlayers} name="direPlayers" onChange={(e) => setDirePlayers(e.target.value)} />
       
+      <br />
       <br />
       <div className='editTitle'>
         Title
@@ -359,7 +368,7 @@ const Board = ({ draft, boardName }) => {
         <input className='editInput' value={game} name="game" onChange={(e) => setGame(e.target.value)} />
       </div>
       
-      {/* <br />
+      <br />
       <div>
         Appearance
       </div>
@@ -372,8 +381,12 @@ const Board = ({ draft, boardName }) => {
         <input value={secondaryColor} name="secondaryColor" onChange={(e) => setSecondaryColor(e.target.value)} />
       </div>
       <div>
-        Accent color:&nbsp;
-        <input value={accentColor} name="accentColor" onChange={(e) => setAccentColor(e.target.value)} />
+        Accent color radiant:&nbsp;
+        <input value={accentColorRadiant} name="accentColorRadiant" onChange={(e) => setAccentColorRadiant(e.target.value)} />
+      </div>
+      <div>
+        Accent color dire:&nbsp;
+        <input value={accentColorDire} name="accentColorDire" onChange={(e) => setAccentColorDire(e.target.value)} />
       </div>
       <div>
         Text color:&nbsp;
@@ -390,7 +403,7 @@ const Board = ({ draft, boardName }) => {
       <div>
         Middle section background color:&nbsp;
         <input value={middleSectionBackgroundColor} name="middleSectionBackgroundColor" onChange={(e) => setMiddleSectionBackgroundColor(e.target.value)} />
-      </div> */}
+      </div>
 
       {/* <div>
         <button onClick={saveAppearanceSettings}>

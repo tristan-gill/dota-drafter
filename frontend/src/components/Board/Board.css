@@ -115,7 +115,7 @@
 .team-players-text {
   font-size: 18px;
   font-weight: 400;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .team-name-left {
@@ -203,4 +203,19 @@
   height: 50px;
   font-size: 40px;
   font-family: 'Paytone One';
+}
+
+.middle-section-background {
+  width: 400px;
+  height: 250px;
+  position: absolute;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 12px;
+  mix-blend-mode: overlay;
+  opacity: 0.2;
 }

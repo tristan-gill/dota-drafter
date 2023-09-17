@@ -13,33 +13,16 @@ const Board = ({ draft, boardName }) => {
   const [nextAction, setNextAction] = useState();
 
   const config = getDefaultForBoardName(boardName);
-  const [primaryColor, setPrimaryColor] = useState(config.primaryColor);
-  const [secondaryColor, setSecondaryColor] = useState(config.secondaryColor);
+  const [primaryColorRadiant, setPrimaryColorRadiant] = useState(config.primaryColorRadiant);
+  const [primaryColorDire, setPrimaryColorDire] = useState(config.primaryColorDire);
+  const [secondaryColorRadiant, setSecondaryColorRadiant] = useState(config.secondaryColorRadiant);
+  const [secondaryColorDire, setSecondaryColorDire] = useState(config.secondaryColorDire);
   const [accentColorDire, setAccentColorDire] = useState(config.accentColorDire);
   const [accentColorRadiant, setAccentColorRadiant] = useState(config.accentColorRadiant);
   const [textColor, setTextColor] = useState(config.textColor);
   const [pickLogoUrl, setPickLogoUrl] = useState(config.pickLogoUrl);
   const [middleSectionBackgroundImage, setMiddleSectionBackgroundImage] = useState(config.middleSectionBackgroundImage);
   const [middleSectionBackgroundColor, setMiddleSectionBackgroundColor] = useState(config.middleSectionBackgroundColor);
-
-  // const saveAppearanceSettings = () => {
-  //   localStorage.setItem('primaryColor', primaryColor);
-  //   localStorage.setItem('secondaryColor', secondaryColor);
-  //   localStorage.setItem('accentColor', accentColor);
-  //   localStorage.setItem('textColor', textColor);
-  //   localStorage.setItem('pickLogoUrl', pickLogoUrl);
-  //   localStorage.setItem('middleSectionBackgroundImage', middleSectionBackgroundImage);
-  //   localStorage.setItem('middleSectionBackgroundColor', middleSectionBackgroundColor);
-  // };
-  // const loadAppearanceSettings = () => {
-  //   setPrimaryColor(localStorage.getItem('primaryColor'));
-  //   setSecondaryColor(localStorage.getItem('secondaryColor'));
-  //   setAccentColor(localStorage.getItem('accentColor'));
-  //   setTextColor(localStorage.getItem('textColor'));
-  //   setPickLogoUrl(localStorage.getItem('pickLogoUrl'));
-  //   setMiddleSectionBackgroundImage(localStorage.getItem('middleSectionBackgroundImage'));
-  //   setMiddleSectionBackgroundColor(localStorage.getItem('middleSectionBackgroundColor'));
-  // };
 
   // surely a better way than this, but im tired
   useEffect(() => {
@@ -152,11 +135,14 @@ const Board = ({ draft, boardName }) => {
     draft?.team3?.pick4_class
   ]);
 
-  const renderBanHero = (heroName, isNext) => {
+  const renderBanHero = (heroName, isNext, isRadiant) => {
     return (
       <div
         className="ban-image-container"
-        style={{ backgroundColor: primaryColor, ...(isNext && { boxShadow: `inset 0px 0px 20px 0px ${accentColorDire}` }) }}
+        style={{
+          backgroundColor: isRadiant ? primaryColorRadiant : primaryColorDire,
+          ...(isNext && { boxShadow: `inset 0px 0px 20px 0px ${accentColorDire}` })
+        }}
       >
         {heroName && (
           <img className='ban-image' src={`https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/${heroName}.png`} alt={heroName} />
@@ -165,12 +151,12 @@ const Board = ({ draft, boardName }) => {
     );
   };
 
-  const renderHeroAnimation = (heroName, isNext) => {
+  const renderHeroAnimation = (heroName, isNext, isRadiant) => {
     return (
       <div
         className="hero-animation-container"
         style={{
-          backgroundColor: secondaryColor,
+          backgroundColor: isRadiant ? secondaryColorRadiant : secondaryColorDire,
           ...(isNext && { boxShadow: `inset 0px 0px 20px 0px ${accentColorRadiant}` }),
           backgroundImage: `url(${pickLogoUrl})`
         }}
@@ -211,33 +197,33 @@ const Board = ({ draft, boardName }) => {
               <div className='d-flex ml-auto'>
                 <div
                   className='team-name team-name-left'
-                  style={{ backgroundColor: primaryColor, borderRightColor: accentColorRadiant, color: textColor }}
+                  style={{ backgroundColor: primaryColorRadiant, borderRightColor: accentColorRadiant, color: textColor }}
                 >
                   <div className='team-name-text'>{radiantTeam}</div>
                   <div className='team-players-text'>{radiantPlayers}</div>
                 </div>
-                <div className='team-score' style={{ backgroundColor: secondaryColor, color: textColor }}>
+                <div className='team-score' style={{ backgroundColor: secondaryColorRadiant, color: textColor }}>
                   {radiantScore}
                 </div>
               </div>
             </div>
 
-            <div className='pick-bar' style={{ backgroundColor: primaryColor }}>
-              {renderHeroAnimation(draft?.team2?.pick0_class, nextAction === 'team2.pick0_class')}
-              {renderHeroAnimation(draft?.team2?.pick1_class, nextAction === 'team2.pick1_class')}
-              {renderHeroAnimation(draft?.team2?.pick2_class, nextAction === 'team2.pick2_class')}
-              {renderHeroAnimation(draft?.team2?.pick3_class, nextAction === 'team2.pick3_class')}
-              {renderHeroAnimation(draft?.team2?.pick4_class, nextAction === 'team2.pick4_class')}
+            <div className='pick-bar' style={{ backgroundColor: primaryColorRadiant }}>
+              {renderHeroAnimation(draft?.team2?.pick0_class, nextAction === 'team2.pick0_class', true)}
+              {renderHeroAnimation(draft?.team2?.pick1_class, nextAction === 'team2.pick1_class', true)}
+              {renderHeroAnimation(draft?.team2?.pick2_class, nextAction === 'team2.pick2_class', true)}
+              {renderHeroAnimation(draft?.team2?.pick3_class, nextAction === 'team2.pick3_class', true)}
+              {renderHeroAnimation(draft?.team2?.pick4_class, nextAction === 'team2.pick4_class', true)}
             </div>
             
-            <div className='ban-bar' style={{ backgroundColor: secondaryColor }}>
-              {renderBanHero(draft?.team2?.ban0_class, nextAction === 'team2.ban0_class')}
-              {renderBanHero(draft?.team2?.ban1_class, nextAction === 'team2.ban1_class')}
-              {renderBanHero(draft?.team2?.ban2_class, nextAction === 'team2.ban2_class')}
-              {renderBanHero(draft?.team2?.ban3_class, nextAction === 'team2.ban3_class')}
-              {renderBanHero(draft?.team2?.ban4_class, nextAction === 'team2.ban4_class')}
-              {renderBanHero(draft?.team2?.ban5_class, nextAction === 'team2.ban5_class')}
-              {renderBanHero(draft?.team2?.ban6_class, nextAction === 'team2.ban6_class')}
+            <div className='ban-bar' style={{ backgroundColor: secondaryColorRadiant }}>
+              {renderBanHero(draft?.team2?.ban0_class, nextAction === 'team2.ban0_class', true)}
+              {renderBanHero(draft?.team2?.ban1_class, nextAction === 'team2.ban1_class', true)}
+              {renderBanHero(draft?.team2?.ban2_class, nextAction === 'team2.ban2_class', true)}
+              {renderBanHero(draft?.team2?.ban3_class, nextAction === 'team2.ban3_class', true)}
+              {renderBanHero(draft?.team2?.ban4_class, nextAction === 'team2.ban4_class', true)}
+              {renderBanHero(draft?.team2?.ban5_class, nextAction === 'team2.ban5_class', true)}
+              {renderBanHero(draft?.team2?.ban6_class, nextAction === 'team2.ban6_class', true)}
             </div>
           </div>
 
@@ -245,10 +231,16 @@ const Board = ({ draft, boardName }) => {
             className="middle-section"
             style={{
               color: textColor,
-              ...(middleSectionBackgroundImage && { backgroundImage: `url(${middleSectionBackgroundImage})`}),
               backgroundColor: middleSectionBackgroundColor
             }}
           >
+            <div
+              className='middle-section-background'
+              style={{
+                ...(middleSectionBackgroundImage && { backgroundImage: `url(${middleSectionBackgroundImage})`}),
+              }}
+            ></div>
+
             <div className='game-number'>
               {game}
             </div>
@@ -305,12 +297,12 @@ const Board = ({ draft, boardName }) => {
           <div className='faction-section'>
             <div className="team-info" style={{ borderBottomColor: accentColorDire }}>
               <div className='d-flex'>
-                <div className='team-score' style={{ backgroundColor: secondaryColor, color: textColor }}>
+                <div className='team-score' style={{ backgroundColor: secondaryColorDire, color: textColor }}>
                   {direScore}
                 </div>
                 <div
                   className='team-name team-name-right'
-                  style={{ backgroundColor: primaryColor, borderLeftColor: accentColorDire, color: textColor }}
+                  style={{ backgroundColor: primaryColorDire, borderLeftColor: accentColorDire, color: textColor }}
                 >
                   <div className='team-name-text'>{direTeam}</div>
                   <div className='team-players-text'>{direPlayers}</div>
@@ -318,27 +310,31 @@ const Board = ({ draft, boardName }) => {
               </div>
             </div>
 
-            <div className='pick-bar' style={{ backgroundColor: primaryColor }}>
-              {renderHeroAnimation(draft?.team3?.pick0_class, nextAction === 'team3.pick0_class')}
-              {renderHeroAnimation(draft?.team3?.pick1_class, nextAction === 'team3.pick1_class')}
-              {renderHeroAnimation(draft?.team3?.pick2_class, nextAction === 'team3.pick2_class')}
-              {renderHeroAnimation(draft?.team3?.pick3_class, nextAction === 'team3.pick3_class')}
-              {renderHeroAnimation(draft?.team3?.pick4_class, nextAction === 'team3.pick4_class')}
+            <div className='pick-bar' style={{ backgroundColor: primaryColorDire }}>
+              {renderHeroAnimation(draft?.team3?.pick0_class, nextAction === 'team3.pick0_class', false)}
+              {renderHeroAnimation(draft?.team3?.pick1_class, nextAction === 'team3.pick1_class', false)}
+              {renderHeroAnimation(draft?.team3?.pick2_class, nextAction === 'team3.pick2_class', false)}
+              {renderHeroAnimation(draft?.team3?.pick3_class, nextAction === 'team3.pick3_class', false)}
+              {renderHeroAnimation(draft?.team3?.pick4_class, nextAction === 'team3.pick4_class', false)}
             </div>
             
-            <div className='ban-bar' style={{ backgroundColor: secondaryColor }}>
-              {renderBanHero(draft?.team3?.ban0_class, nextAction === 'team3.ban0_class')}
-              {renderBanHero(draft?.team3?.ban1_class, nextAction === 'team3.ban1_class')}
-              {renderBanHero(draft?.team3?.ban2_class, nextAction === 'team3.ban2_class')}
-              {renderBanHero(draft?.team3?.ban3_class, nextAction === 'team3.ban3_class')}
-              {renderBanHero(draft?.team3?.ban4_class, nextAction === 'team3.ban4_class')}
-              {renderBanHero(draft?.team3?.ban5_class, nextAction === 'team3.ban5_class')}
-              {renderBanHero(draft?.team3?.ban6_class, nextAction === 'team3.ban6_class')}
+            <div className='ban-bar' style={{ backgroundColor: secondaryColorDire }}>
+              {renderBanHero(draft?.team3?.ban0_class, nextAction === 'team3.ban0_class', false)}
+              {renderBanHero(draft?.team3?.ban1_class, nextAction === 'team3.ban1_class', false)}
+              {renderBanHero(draft?.team3?.ban2_class, nextAction === 'team3.ban2_class', false)}
+              {renderBanHero(draft?.team3?.ban3_class, nextAction === 'team3.ban3_class', false)}
+              {renderBanHero(draft?.team3?.ban4_class, nextAction === 'team3.ban4_class', false)}
+              {renderBanHero(draft?.team3?.ban5_class, nextAction === 'team3.ban5_class', false)}
+              {renderBanHero(draft?.team3?.ban6_class, nextAction === 'team3.ban6_class', false)}
             </div>
           </div>
         </div>
       </div>
 
+      <br />
+      <br />
+      <br />
+      
       <div className='editTitle'>
         Radiant team
       </div>
@@ -374,11 +370,13 @@ const Board = ({ draft, boardName }) => {
       </div>
       <div>
         Primary color:&nbsp;
-        <input value={primaryColor} name="primaryColor" onChange={(e) => setPrimaryColor(e.target.value)} />
+        <input value={primaryColorRadiant} name="primaryColorRadiant" onChange={(e) => setPrimaryColorRadiant(e.target.value)} />
+        <input value={primaryColorDire} name="primaryColorDire" onChange={(e) => setPrimaryColorDire(e.target.value)} />
       </div>
       <div>
         Secondary color:&nbsp;
-        <input value={secondaryColor} name="secondaryColor" onChange={(e) => setSecondaryColor(e.target.value)} />
+        <input value={secondaryColorRadiant} name="secondaryColorRadiant" onChange={(e) => setSecondaryColorRadiant(e.target.value)} />
+        <input value={secondaryColorDire} name="secondaryColorDire" onChange={(e) => setSecondaryColorDire(e.target.value)} />
       </div>
       <div>
         Accent color radiant:&nbsp;

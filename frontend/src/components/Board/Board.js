@@ -141,7 +141,7 @@ const Board = ({ draft, boardName }) => {
         className="ban-image-container"
         style={{
           backgroundColor: isRadiant ? primaryColorRadiant : primaryColorDire,
-          ...(isNext && { boxShadow: `inset 0px 0px 20px 0px ${accentColorDire}` })
+          ...(isNext && { boxShadow: `inset 0px 0px 20px 0px ${isRadiant ? accentColorRadiant : accentColorDire}` })
         }}
       >
         {heroName && (
@@ -157,7 +157,7 @@ const Board = ({ draft, boardName }) => {
         className="hero-animation-container"
         style={{
           backgroundColor: isRadiant ? secondaryColorRadiant : secondaryColorDire,
-          ...(isNext && { boxShadow: `inset 0px 0px 20px 0px ${accentColorRadiant}` }),
+          ...(isNext && { boxShadow: `inset 0px 0px 20px 0px ${isRadiant ? accentColorRadiant : accentColorDire}` }),
           backgroundImage: `url(${pickLogoUrl})`
         }}
       >

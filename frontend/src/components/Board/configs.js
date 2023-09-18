@@ -14,15 +14,15 @@ export const getDefaultForBoardName = (boardName) => {
 
   if (boardName === 'wc') {
     return {
-      primaryColorRadiant: '#869279',
-      primaryColorDire: '#927979',
-      secondaryColorRadiant: "#96A590",
-      secondaryColorDire: "#A59090",
+      primaryColorRadiant: '#556e3b',
+      primaryColorDire: '#913d3d',
+      secondaryColorRadiant: "#709164",
+      secondaryColorDire: "#916464",
       accentColorRadiant: "#0FE800",
       accentColorDire: "#E80000",
       textColor: "#000000",
       pickLogoUrl: 'https://i.imgur.com/OC5hJYv.png',
-      middleSectionBackgroundColor: "#807E79",
+      middleSectionBackgroundColor: "#cba74ebf",
       middleSectionBackgroundImage: "https://i.imgur.com/REO8q9k.png",
     };
     

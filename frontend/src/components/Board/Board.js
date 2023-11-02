@@ -23,6 +23,7 @@ const Board = ({ draft, boardName }) => {
   const [pickLogoUrl, setPickLogoUrl] = useState(config.pickLogoUrl);
   const [middleSectionBackgroundImage, setMiddleSectionBackgroundImage] = useState(config.middleSectionBackgroundImage);
   const [middleSectionBackgroundColor, setMiddleSectionBackgroundColor] = useState(config.middleSectionBackgroundColor);
+  const [backgroundColor, setBackgroundColor] = useState(config.backgroundColor)
 
   // surely a better way than this, but im tired
   useEffect(() => {
@@ -190,7 +191,7 @@ const Board = ({ draft, boardName }) => {
 
   return (
     <>
-      <div className="page">
+      <div className="page" style={{ backgroundColor }}>
         <div className='container'>
           <div className='faction-section'>
             <div className="team-info" style={{ borderBottomColor: accentColorRadiant }}>
@@ -401,6 +402,10 @@ const Board = ({ draft, boardName }) => {
       <div>
         Middle section background color:&nbsp;
         <input value={middleSectionBackgroundColor} name="middleSectionBackgroundColor" onChange={(e) => setMiddleSectionBackgroundColor(e.target.value)} />
+      </div>
+      <div>
+        background color:&nbsp;
+        <input value={backgroundColor} name="backgroundColor" onChange={(e) => setBackgroundColor(e.target.value)} />
       </div>
 
       {/* <div>

@@ -6,7 +6,7 @@ var clients = [];
 var port = process.env.PORT || 3000;
 var tokens = process.env.TOKENS ? process.env.TOKENS.split(',') : null;
 
-function gsi_client (ip, auth) {
+function gsi_client(ip, auth) {
   this.ip = ip;
   this.auth = auth;
   this.gamestate = {};
@@ -14,12 +14,17 @@ function gsi_client (ip, auth) {
 gsi_client.prototype.__proto__ = eventEmitter.prototype;
 
 function Check_client(req, res, next) {
-  // Check if this IP is already talking to us
+  var token = req.body.auth && req.body.auth.token;
+
+  // Check if this board (by auth token) is already talking to us.
   for (var i = 0; i < clients.length; i++) {
-      if (clients[i].ip == req.ip) {
-          req.client = clients[i];
-          return next();
-      }
+    var matches = token
+      ? (clients[i].auth && clients[i].auth.token == token)
+      : (clients[i].ip == req.ip);
+    if (matches) {
+      req.client = clients[i];
+      return next();
+    }
   }
 
   // Create a new client
@@ -34,45 +39,45 @@ function Check_client(req, res, next) {
 }
 
 function Emit_all(prefix, obj, emitter) {
-  Object.keys(obj).forEach(function(key) {
-      // For scanning keys and testing
-      // emitter.emit("key", ""+prefix+key);
-      // console.log("Emitting '"+prefix+key+"' - " + obj[key]);
-      emitter.emit(prefix+key, obj[key]);
+  Object.keys(obj).forEach(function (key) {
+    // For scanning keys and testing
+    // emitter.emit("key", ""+prefix+key);
+    // console.log("Emitting '"+prefix+key+"' - " + obj[key]);
+    emitter.emit(prefix + key, obj[key]);
   });
 }
 
 function Recursive_emit(prefix, changed, body, emitter) {
-  Object.keys(changed).forEach(function(key) {
-      if (typeof(changed[key]) == 'object') {
-          if (body[key] != null) { // safety check
-              Recursive_emit(prefix+key+":", changed[key], body[key], emitter);
-          }
-      } else {
-          // Got a key
-          if (body[key] != null) {
-              if (typeof body[key] == 'object') {
-                  // Edge case on added:item/ability:x where added shows true at the top level
-                  // and doesn't contain each of the child keys
-                  Emit_all(prefix+key+":", body[key], emitter);
-              } else {
-                  // For scanning keys and testing
-                  // emitter.emit("key", ""+prefix+key);
-                  // console.log("Emitting '"+prefix+key+"' - " + body[key]);
-                  emitter.emit(prefix+key, body[key]);
-              }
-          }
+  Object.keys(changed).forEach(function (key) {
+    if (typeof (changed[key]) == 'object') {
+      if (body[key] != null) { // safety check
+        Recursive_emit(prefix + key + ":", changed[key], body[key], emitter);
       }
+    } else {
+      // Got a key
+      if (body[key] != null) {
+        if (typeof body[key] == 'object') {
+          // Edge case on added:item/ability:x where added shows true at the top level
+          // and doesn't contain each of the child keys
+          Emit_all(prefix + key + ":", body[key], emitter);
+        } else {
+          // For scanning keys and testing
+          // emitter.emit("key", ""+prefix+key);
+          // console.log("Emitting '"+prefix+key+"' - " + body[key]);
+          emitter.emit(prefix + key, body[key]);
+        }
+      }
+    }
   });
 }
 
 function Process_changes(section) {
-  return function(req, res, next) {
-      if (req.body[section]) {
-          // console.log("Starting recursive emit for '" + section + "'");
-          Recursive_emit("", req.body[section], req.body, req.client);
-      }
-      next();
+  return function (req, res, next) {
+    if (req.body[section]) {
+      // console.log("Starting recursive emit for '" + section + "'");
+      Recursive_emit("", req.body[section], req.body, req.client);
+    }
+    next();
   }
 }
 
@@ -88,21 +93,21 @@ function New_data(req, res) {
 }
 
 function Check_auth(tokens) {
-  return function(req, res, next) {
-      if (tokens) {
-          if (req.body.auth && // Body has auth
-              (req.body.auth.token == tokens || // tokens was a single string or
-              (tokens.constructor === Array && // tokens was an array and
-              tokens.indexOf(req.body.auth.token) != -1))) { // containing the token
-              next();
-          } else {
-              // Not a valid auth, drop the message
-              console.log("Dropping message from IP: " + req.ip + ", no valid auth token");
-              res.end();
-          }
+  return function (req, res, next) {
+    if (tokens) {
+      if (req.body.auth && // Body has auth
+        (req.body.auth.token == tokens || // tokens was a single string or
+          (tokens.constructor === Array && // tokens was an array and
+            tokens.indexOf(req.body.auth.token) != -1))) { // containing the token
+        next();
       } else {
-          next();
+        // Not a valid auth, drop the message
+        console.log("Dropping message from IP: " + req.ip + ", no valid auth token");
+        res.end();
       }
+    } else {
+      next();
+    }
   }
 }
 
@@ -142,8 +147,8 @@ io.on('connection', (socket) => {
   });
 });
 
-app.get('*', function(req, res) {
-  res.sendFile('index.html', {root: path.join(__dirname, '/public/')});
+app.get('*', function (req, res) {
+  res.sendFile('index.html', { root: path.join(__dirname, '/public/') });
 });
 
 http.listen(port || 3000, () => {

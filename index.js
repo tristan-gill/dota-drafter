@@ -139,6 +139,17 @@ io.on('connection', (socket) => {
   socket.on('join', (boardName) => {
     console.log('join ', boardName)
     socket.join(boardName);
+
+    // Send the board's last known draft state immediately, since GSI only
+    // pushes updates on new changes - without this, a socket that joins
+    // after the draft has already finished (no more changes ever coming)
+    // would otherwise never receive anything and stay blank forever.
+    var client = clients.find(function(c) {
+      return c.auth && c.auth.token && parseAuthToken(c.auth.token) === boardName;
+    });
+    if (client && client.gamestate && client.gamestate.draft) {
+      socket.emit('draft', client.gamestate.draft);
+    }
   });
 
   socket.on('disconnect', () => {
